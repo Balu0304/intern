@@ -9,3 +9,49 @@ Exception in thread "main" java.lang.UnsupportedClassVersionError: org/springfra
 	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:168)
 	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:522)
 	at com.example.demo.App.main(App.java:10)
+
+
+ChatGPT
+
+Exception in thread "main" java.lang.UnsupportedClassVersionError: org/springframework/boot/SpringApplication has been compiled by a more recent version of the Java Runtime (class file version 61.0), this version of the Java Runtime only recognizes class file versions up to 59.0
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:1016)
+	at java.base/java.security.SecureClassLoader.defineClass(SecureClassLoader.java:151)
+	at java.base/jdk.internal.loader.BuiltinClassLoader.defineClass(BuiltinClassLoader.java:825)
+	at java.base/jdk.internal.loader.BuiltinClassLoader.findClassOnClassPathOrNull(BuiltinClassLoader.java:723)
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClassOrNull(BuiltinClassLoader.java:646)
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:604)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:168)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:522)
+	at com.example.demo.App.main(App.java:10)
+
+How to solve this issue
+ChatGPT
+The error message you are encountering, UnsupportedClassVersionError, indicates that your Java application is being compiled with a version of the Java Development Kit (JDK) that is newer than the Java Runtime Environment (JRE) you are using to run it. Specifically, your application is compiled with a JDK version that produces class files with version 61.0, which corresponds to JDK 17, but you are trying to run it with a JRE that only supports up to class file version 59.0 (JDK 15).
+
+To resolve this issue, you have a few options:
+
+Upgrade Your JRE:
+
+Upgrade your Java Runtime Environment (JRE) to match the version used for compiling your application. In this case, you need to use JRE 17 or later.
+Compile with an Older JDK:
+
+If you want to keep using the current JRE version, you need to compile your application with a JDK version that matches or is lower than your JRE. For instance, use JDK 15 or lower.
+Set the target and source Compatibility:
+
+If you need to maintain compatibility with older JREs, you can set the target and source compatibility in your build.gradle or pom.xml file (if you're using Gradle or Maven) to a lower version:
+Gradle:
+groovy
+Copy code
+tasks.withType(JavaCompile) {
+    sourceCompatibility = '15'
+    targetCompatibility = '15'
+}
+Maven:
+xml
+Copy code
+<properties>
+    <maven.compiler.source>15</maven.compiler.source>
+    <maven.compiler.target>15</maven.compiler.target>
+</properties>
+After applying one of these solutions, rebuild your project and try running it again.
